@@ -1,23 +1,22 @@
 #include <GL/freeglut.h>
 #include <stdio.h>
-//#include "element.h"
+#include <string>
 #include "draw.h"
-#include "model.h"
+#include "input.h"
 
 using namespace std;
 
-int kbstat[256] = {0};
-int mouseButton = 0;
-int screenSize = 600;
-int screenWidth = 600;
-int screenHeight = 600;
+extern int screenSize;
+extern int screenWidth;
+extern int screenHeight;
+
+const char* _APP_NAME_ = "Delaunay Triangles";
 
 // Initialization
 void init(){
-    printf("--------Geometry test 0.0.0--------\n");
-    printf("OpenGL Version %s\n\n", glGetString(GL_VERSION));
+    printf("--------%s 0.0.0--------\nOpenGL Version %s\n\n", _APP_NAME_, glGetString(GL_VERSION));
     initDisplay();
-//    initModel();
+    initInput();
 }
 
 // Timer Callback
@@ -25,60 +24,9 @@ void timerCallback(int index){
     switch (index) {
         case 0:
             glutTimerFunc(33, &timerCallback, 0);
-            update(kbstat);
             glutPostRedisplay();
             break;
     }
-}
-
-// Keyboard Callback
-void keyboardCallback(unsigned char key, int _x, int _y){
-    switch (key) {
-        case '\x0D' :
-        case '\x1B' :
-            glutLeaveMainLoop();
-            break;
-    }
-    kbstat[key] = 1;
-}
-
-void keyboardUpCallback(unsigned char key, int x, int y){
-    kbstat[key] = 0;
-}
-
-// Mouse Callback
-void mouseKey(int button, int state, int x, int y){
-    if (GLUT_DOWN == state) switch (button) {
-        case GLUT_LEFT_BUTTON:
-            mouseButton |= LEFT_MOUSE_BUTTON;
-            break;
-        case GLUT_MIDDLE_BUTTON:
-            mouseButton |= MIDDLE_MOUSE_BUTTON;
-            break;
-        case GLUT_RIGHT_BUTTON:
-            mouseButton |= RIGHT_MOUSE_BUTTON;
-            break;
-    }
-    else switch (button) {
-        case GLUT_LEFT_BUTTON:
-            mouseButton &= ~LEFT_MOUSE_BUTTON;
-            break;
-        case GLUT_MIDDLE_BUTTON:
-            mouseButton &= ~MIDDLE_MOUSE_BUTTON;
-            break;
-        case GLUT_RIGHT_BUTTON:
-            mouseButton &= ~RIGHT_MOUSE_BUTTON;
-            break;
-    }
-    renewMouseStat((double) (x - screenWidth/2.0)/screenSize,
-                (double) (screenHeight/2.0 - y)/screenSize,
-                mouseButton);
-}
-
-void mouseMotion(int x, int y){
-    renewMouseStat((double) (x - screenWidth/2.0)/screenSize,
-                (double) (screenHeight/2.0 - y)/screenSize,
-                mouseButton);
 }
 
 int main(int argc, char *argv[]){
@@ -87,19 +35,11 @@ int main(int argc, char *argv[]){
     glutInitDisplayMode(GLUT_RGB | GLUT_SINGLE | GLUT_MULTISAMPLE);
     glutInitWindowPosition(100, 100);
     glutInitWindowSize(screenWidth, screenHeight);
-    glutCreateWindow("Geometry");
+    glutCreateWindow(_APP_NAME_);
     glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_GLUTMAINLOOP_RETURNS);
 
     //Callback function registry
     glutDisplayFunc(&display);
-    glutReshapeFunc(&reshape);
-
-//    glutKeyboardFunc(&keyboardCallback);
-//    glutKeyboardUpFunc(&keyboardUpCallback);
-
-    glutMouseFunc(&mouseKey);
-    glutMotionFunc(&mouseMotion);
-    glutPassiveMotionFunc(&mouseMotion);
 
     glutTimerFunc(0, &timerCallback, 0);
 

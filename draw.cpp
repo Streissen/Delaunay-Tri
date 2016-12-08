@@ -1,54 +1,26 @@
 #include <GL/freeglut.h>
 #include <stdio.h>
-#include <math.h>
-#include <vector>
-#include <deque>
 #include <time.h>
+#include "input.h"
 
 using namespace std;
 
-extern int screenSize;
-extern int screenWidth;
-extern int screenHeight;
+int screenSize = 600;
+int screenWidth = 600;
+int screenHeight = 600;
 
-const int MAX = 100;
-const double TINY = 0.01;
-
-//extern vector<point> v;
-//extern vector<line> l;
-//extern vector<int> vr, vg, vb;
-//extern vector<int> lr, lg, lb;
-//extern transform t;
-//extern deque<point> snake;
-//extern size_t snakeend;
-//extern double snakeStep;
-//extern double boundRadius;
-//extern point food;
-//extern int score;
-
-//const double snakeWidth = snakeStep / 2.0;
+extern Input input;
 
 int getfps(){
     static int count = 0, fps = 0;
-    static time_t t1 = time(NULL);
-    time_t t = time(NULL);
-    if (t > t1) {
-        fps = count/(t-t1);
-        t1 = t;
+    static time_t previousTime = time(NULL);
+    time_t currentTime = time(NULL);
+    if (currentTime > previousTime) {
+        fps = count / (currentTime - previousTime);
+        previousTime = currentTime;
         count = 0;
-    }else ++count;
+    } else ++count;
     return fps;
-}
-
-void reshape(int width, int height){
-    screenWidth = width;
-    screenHeight = height;
-    screenSize = (width < height ? width : height);
-    glViewport (0, 0, width, height);
-    glLoadIdentity ();
-    glOrtho (-(GLfloat)width / screenSize, (GLfloat)width / screenSize,
-            -(GLfloat)height / screenSize, (GLfloat)height / screenSize,
-            -2.0f, 2.0f);
 }
 
 void initDisplay(){
@@ -64,18 +36,27 @@ void initDisplay(){
 }
 
 void display(){
-    //transform t(0.0);
- 
     //Clearing buffer
     glClear(GL_COLOR_BUFFER_BIT);
 
     //Drawing objects
     glColor3f(1.0f, 1.0f, 1.0f);
-    //drawCircle(point(0.0, 0.0), 1.0);
 
+    glBegin(GL_TRIANGLES);
+        glColor3f(1.0f, 0.0f, 0.0f);
+        glVertex3f(0.0f, 1.0f, 0.0f);
+        glColor3f(0.0f, 1.0f, 0.0f);
+        glVertex3f(-1.0f,-1.0f, 0.0f);
+        glColor3f(0.0f, 0.0f, 1.0f);
+        glVertex3f(1.0f,-1.0f, 0.0f);
+    glEnd();
 
     //Drawing text infomation
     char str[257];
+    sprintf(str, "FPS: %d\nMouse: %+.3lf, %+.3lf",
+            getfps(),
+            input.getMouse().getNx(),
+            input.getMouse().getNy());
     glColor3f(1.0f, 1.0f, 0.5f);
     glRasterPos2d(-1, 1 - 24.0/screenSize);
     glutBitmapString(GLUT_BITMAP_HELVETICA_12, (unsigned char *)str);

@@ -1,6 +1,8 @@
-#include "Vertex.h"//
+//
 // Created by xdroid on 12/8/16.
 //
+
+#include "Vertex.h"
 
 Vertex::Vertex() : x(0.0), y(0.0), height(0.0), p(nullptr) {}
 
@@ -11,6 +13,9 @@ Vertex::~Vertex() {
     p = nullptr;
 }
 
+Vertex Vertex::operator -(Vertex _vertex) const {
+    return Vertex(x-_vertex.x, y-_vertex.y, 0.0);
+}
 
 double Vertex::getX() const {
     return x;
@@ -33,6 +38,8 @@ GLdouble* Vertex::getGLdoubleArray() {
 }
 
 std::ostream &operator<<(std::ostream &os, const Vertex &vertex) {
+    os << "Vertex: {";
     os << "x: " << vertex.x << " y: " << vertex.y << " height: " << vertex.height << " p: " << vertex.p;
+    os << "}";
     return os;
 }

@@ -58,3 +58,42 @@ Triangle::Triangle(Vertex v0, Vertex v1, Vertex v2) {
     this->vertex[1] = v1;
     this->vertex[2] = v2;
 }
+
+double Triangle::getAverageHeight() const {
+    double sum = 0.0;
+    for (auto &v: vertex) {
+        sum += v.getHeight();
+    }
+    return sum / 3.0;
+}
+
+bool Triangle::contain(Vertex vertex) const {
+    Vertex _v0 = this->vertex[2] - this->vertex[0];
+    Vertex _v1 = this->vertex[1] - this->vertex[0];
+    Vertex _v2 = vertex - this->vertex[0];
+
+    Eigen::Vector2d v0(_v0.getX(), _v0.getY());
+    Eigen::Vector2d v1(_v1.getX(), _v1.getY());
+    Eigen::Vector2d v2(_v2.getX(), _v2.getY());
+    double dot00 = v0.dot(v0) ;
+    double dot01 = v0.dot(v1) ;
+    double dot02 = v0.dot(v2) ;
+    double dot11 = v1.dot(v1) ;
+    double dot12 = v1.dot(v2) ;
+
+    double inverDeno = 1 / (dot00 * dot11 - dot01 * dot01) ;
+
+    double u = (dot11 * dot02 - dot01 * dot12) * inverDeno ;
+    if (u < 0 || u > 1) // if u out of range, return directly
+    {
+        return false ;
+    }
+
+    double v = (dot00 * dot12 - dot01 * dot02) * inverDeno ;
+    if (v < 0 || v > 1) // if v out of range, return directly
+    {
+        return false ;
+    }
+
+    return u + v <= 1 ;
+}

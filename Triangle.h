@@ -20,6 +20,10 @@ public:
     Vertex get(int index) const;
     double getRadius() const;
     Vertex getCircumCenter() const;
+
+    double getAverageHeight() const;
+
+    bool contain(Vertex vertex) const;
 };
 
 #endif //DELAUNAY_TRI_TRANGLE_H

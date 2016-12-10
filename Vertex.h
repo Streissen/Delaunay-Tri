@@ -19,6 +19,8 @@ public:
 
     virtual ~Vertex();
 
+    Vertex operator -(Vertex _vertex) const;
+
     double getX() const;
     double getY() const;
     double getHeight() const;

@@ -4,6 +4,7 @@
 #include <vector>
 #include "input.h"
 #include "Vertex.h"
+#include "Triangle.h"
 
 using namespace std;
 
@@ -13,6 +14,7 @@ int screenHeight = 600;
 
 extern Input input;
 extern vector<Vertex> vertexes;
+extern vector<Triangle> triangles;
 
 int getfps(){
     static int count = 0, fps = 0;
@@ -37,6 +39,15 @@ void drawPoint(Vertex v){
     glEnd();
 }
 
+void drawTriangle(Triangle triangle) {
+    glBegin(GL_TRIANGLE_FAN);
+    for (int i = 0; i < 3; ++i) {
+        glColor4d(1.0, 1.0, 1.0, triangle.getAverageHeight());
+        glVertex2dv(triangle.get(i).getGLdoubleArray());
+    }
+    glEnd();
+}
+
 void initDisplay(){
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -58,6 +69,10 @@ void display(){
 
     for (auto &vertex: vertexes) {
         drawPoint(vertex);
+    }
+
+    for (auto &triangle: triangles) {
+        drawTriangle(triangle);
     }
 
     //Drawing text infomation

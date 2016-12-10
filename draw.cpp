@@ -1,7 +1,9 @@
 #include <GL/freeglut.h>
 #include <stdio.h>
 #include <time.h>
+#include <vector>
 #include "input.h"
+#include "Vertex.h"
 
 using namespace std;
 
@@ -10,6 +12,7 @@ int screenWidth = 600;
 int screenHeight = 600;
 
 extern Input input;
+extern vector<Vertex> vertexes;
 
 int getfps(){
     static int count = 0, fps = 0;
@@ -21,6 +24,17 @@ int getfps(){
         count = 0;
     } else ++count;
     return fps;
+}
+
+void drawPoint(Vertex v){
+    double size = 0.01;
+    if (size * screenSize / 2 < 0.3) return;
+    glBegin(GL_POLYGON);
+    glVertex2d(v.getX()-size, v.getY()-size);
+    glVertex2d(v.getX()-size, v.getY()+size);
+    glVertex2d(v.getX()+size, v.getY()+size);
+    glVertex2d(v.getX()+size, v.getY()-size);
+    glEnd();
 }
 
 void initDisplay(){
@@ -42,14 +56,9 @@ void display(){
     //Drawing objects
     glColor3f(1.0f, 1.0f, 1.0f);
 
-    glBegin(GL_TRIANGLES);
-        glColor3f(1.0f, 0.0f, 0.0f);
-        glVertex3f(0.0f, 1.0f, 0.0f);
-        glColor3f(0.0f, 1.0f, 0.0f);
-        glVertex3f(-1.0f,-1.0f, 0.0f);
-        glColor3f(0.0f, 0.0f, 1.0f);
-        glVertex3f(1.0f,-1.0f, 0.0f);
-    glEnd();
+    for (auto &vertex: vertexes) {
+        drawPoint(vertex);
+    }
 
     //Drawing text infomation
     char str[257];

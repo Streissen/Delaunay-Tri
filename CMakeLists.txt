@@ -8,7 +8,7 @@ include_directories("freeglut/include")
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -g3")
 
-set(SOURCE_FILES main.cpp draw.cpp input.cpp input.h)
+set(SOURCE_FILES main.cpp draw.cpp input.cpp input.h model.cpp model.h Vertex.cpp Vertex.h)
 add_executable(${BIN} ${SOURCE_FILES})
 
 target_link_libraries(${BIN} libglut.a)

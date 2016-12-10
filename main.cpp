@@ -3,6 +3,7 @@
 #include <string>
 #include "draw.h"
 #include "input.h"
+#include "model.h"
 
 using namespace std;
 
@@ -17,6 +18,7 @@ void init(){
     printf("--------%s 0.0.0--------\nOpenGL Version %s\n\n", _APP_NAME_, glGetString(GL_VERSION));
     initDisplay();
     initInput();
+    initModel();
 }
 
 // Timer Callback

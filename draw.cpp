@@ -5,6 +5,7 @@
 #include "input.h"
 #include "Vertex.h"
 #include "Triangle.h"
+#include "map.h"
 
 using namespace std;
 
@@ -15,6 +16,7 @@ int screenHeight = 600;
 extern Input input;
 extern vector<Vertex> vertexes;
 extern vector<Triangle> triangles;
+extern Triangle superTriangle(double screenWidth, double screenHight);
 
 int getfps(){
     static int count = 0, fps = 0;
@@ -70,6 +72,8 @@ void display(){
     for (auto &vertex: vertexes) {
         drawPoint(vertex);
     }
+    Triangle triangle1 = superTriangle(5.0,5.0);
+
 
     for (auto &triangle: triangles) {
         drawTriangle(triangle);

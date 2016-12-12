@@ -6,6 +6,7 @@
 #include "Vertex.h"
 #include "eigen3/Eigen/Dense"
 #include "Triangle.h"
+#include <cmath>
 
 double Triangle::getRadius() const {
     Vertex v1(this->vertex[0]), v2(this->vertex[1]), v3(this->vertex[2]);
@@ -96,4 +97,20 @@ bool Triangle::contain(Vertex vertex) const {
     }
 
     return u + v <= 1 ;
+}
+
+
+bool Triangle::hasVertex(Vertex vertex) {
+    for (int i = 0; i < 3; ++i) {
+        double distance = sqrt(pow(vertex.getX() - this->get(i).getX(), 2.0) + pow(vertex.getY() - this->get(i).getY(), 2.0));
+        if (distance < 1e-6)
+            return true;
+    }
+    return false;
+}
+
+Triangle::~Triangle() {
+    for (auto &v: vertex) {
+        v.~Vertex();
+    }
 }

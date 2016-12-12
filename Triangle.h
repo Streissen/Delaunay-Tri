@@ -15,6 +15,8 @@ public:
     Triangle(Vertex vertex[3]);
     Triangle(Vertex v0, Vertex v1, Vertex v2);
 
+    virtual ~Triangle();
+
     const Vertex *getVertex() const;
 
     Vertex get(int index) const;
@@ -24,6 +26,7 @@ public:
     double getAverageHeight() const;
 
     bool contain(Vertex vertex) const;
+    bool hasVertex(Vertex vertex);
 };
 
 #endif //DELAUNAY_TRI_TRANGLE_H

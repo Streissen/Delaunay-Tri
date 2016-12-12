@@ -30,5 +30,7 @@ public:
     friend std::ostream &operator<<(std::ostream &os, const Vertex &vertex);
 };
 
+bool isSameVertex(Vertex vertex1, Vertex vertex2);
+
 
 #endif //DELAUNAY_TRI_VERTEX_H

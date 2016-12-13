@@ -5,7 +5,6 @@
 #include "input.h"
 #include "Vertex.h"
 #include "Triangle.h"
-#include "map.h"
 
 using namespace std;
 
@@ -16,7 +15,8 @@ int screenHeight = 600;
 extern Input input;
 extern vector<Vertex> vertexes;
 extern vector<Triangle> triangles;
-extern Triangle superTriangle(double screenWidth, double screenHight);
+extern Triangle superTriangle();
+extern vector<Triangle> map(vector<Vertex> vertexes);
 
 int getfps(){
     static int count = 0, fps = 0;
@@ -48,6 +48,12 @@ void drawTriangle(Triangle triangle) {
         glVertex2dv(triangle.get(i).getGLdoubleArray());
     }
     glEnd();
+    glBegin(GL_LINE_LOOP);
+    glColor4d(1.0, 1.0, 0.0, 0.5);
+    for (int i = 0; i < 3; ++i) {
+        glVertex2dv(triangle.get(i).getGLdoubleArray());
+    }
+    glEnd();
 }
 
 void initDisplay(){
@@ -72,12 +78,18 @@ void display(){
     for (auto &vertex: vertexes) {
         drawPoint(vertex);
     }
-    Triangle triangle1 = superTriangle(5.0,5.0);
-
 
     for (auto &triangle: triangles) {
         drawTriangle(triangle);
     }
+
+    /*glColor4d(0.0, 1.0, 1.0, 0.5);
+    glBegin(GL_POLYGON);
+    glVertex2d(-0.5, -0.5);
+    glVertex2d(-0.5, 0.5);
+    glVertex2d(0.5, 0.5);
+    glVertex2d(0.5, -0.5);
+    glEnd();*/
 
     //Drawing text infomation
     char str[257];

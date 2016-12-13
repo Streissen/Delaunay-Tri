@@ -63,8 +63,8 @@ void Input::Mouse::set(int _button, int _state, int _x, int _y) {
 void Input::Mouse::setMotion(int _x, int _y) {
     x = _x;
     y = _y;
-    nx = (_x - screenWidth / 2.0) / screenSize;
-    ny = (screenHeight / 2.0 - _y) / screenSize;
+    nx = (_x - screenWidth / 2.0) / screenSize * 2;
+    ny = (screenHeight / 2.0 - _y) / screenSize * 2;
 }
 
 /** Input::Keyboard */

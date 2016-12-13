@@ -3,10 +3,9 @@
 //
 
 #include "Edge.h"
-#include "Vertex.h"
 
 Edge::Edge() {}
-Edge::Edge(Vertex *vertex) {
+Edge::Edge(Vertex vertex[]) {
     for (int i = 0; i < 2; ++i) {
         this->vertex[i] = vertex[i];
     }
@@ -29,8 +28,16 @@ Vertex Edge::get(int index) const {
     return vertex[index];
 }
 
+Edge::~Edge() {
+    vertex[0].~Vertex();
+    vertex[1].~Vertex();
+}
+
+std::ostream &operator<<(std::ostream &os, const Edge &edge) {
+    os << "Edge: " << edge.vertex[0] << " " << edge.vertex[1];
+    return os;
+}
+
 bool isSameEdge(Edge edge1,Edge edge2) {
-    if (isSameVertex(edge1.get(0), edge2.get(0)) && isSameVertex(edge1.get(1), edge2.get(1)))
-        return true;
-    return false;
+    return isSameVertex(edge1.get(0), edge2.get(0)) && isSameVertex(edge1.get(1), edge2.get(1));
 }

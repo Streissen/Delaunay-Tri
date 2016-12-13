@@ -5,6 +5,7 @@
 #ifndef DELAUNAY_TRI_TRANGLE_H
 #define DELAUNAY_TRI_TRANGLE_H
 
+#include <ostream>
 #include "Vertex.h"
 
 class Triangle {
@@ -27,6 +28,8 @@ public:
 
     bool contain(Vertex vertex) const;
     bool hasVertex(Vertex vertex);
+
+    friend std::ostream &operator<<(std::ostream &os, const Triangle &triangle);
 };
 
 #endif //DELAUNAY_TRI_TRANGLE_H

@@ -4,9 +4,6 @@
 
 #include "Vertex.h"
 #include <math.h>
-#include <cmath>
-
-
 
 Vertex::Vertex() : x(0.0), y(0.0), height(0.0), p(nullptr) {}
 
@@ -41,6 +38,10 @@ GLdouble* Vertex::getGLdoubleArray() {
     return p;
 }
 
+double Vertex::getDistance(const Vertex v) const {
+    return sqrt((x-v.x)*(x-v.x) + (y-v.y)*(y-v.y));
+}
+
 std::ostream &operator<<(std::ostream &os, const Vertex &vertex) {
     os << "Vertex: {";
     os << "x: " << vertex.x << " y: " << vertex.y << " height: " << vertex.height << " p: " << vertex.p;
@@ -49,8 +50,6 @@ std::ostream &operator<<(std::ostream &os, const Vertex &vertex) {
 }
 
 bool isSameVertex(Vertex vertex1, Vertex vertex2) {
-    double distence = sqrt(pow(vertex1.getX() - vertex2.getX(), 2.0) + pow(vertex1.getY() - vertex2.getY(), 2.0));
-    if (distence < 1e-6)
-        return true;
-    return false;
+    double distence = vertex1.getDistance(vertex2);
+    return distence < 1e-16;
 }

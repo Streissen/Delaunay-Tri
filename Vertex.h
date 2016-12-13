@@ -27,6 +27,8 @@ public:
 
     GLdouble* getGLdoubleArray();
 
+    double getDistance(const Vertex v) const;
+
     friend std::ostream &operator<<(std::ostream &os, const Vertex &vertex);
 };
 
